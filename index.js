@@ -21,4 +21,21 @@ app.get('/users', async (req, res) => {
         }
     })
 
+
+
+// Add new user
+app.post('/users', async (req, res) => {
+    const { username, email, hashed_password } = req.body
+    console.log("New user data:",  username, email, hashed_password)
+    try{
+      const newUser = pool.query(`INSERT INTO users(username, email, hashed_password) VALUES($1, $2, $3)`, 
+      [username, email, hashed_password])
+      res.json(newUser)
+  
+    }
+    catch(err){
+      console.error(err)
+    }
+  })
+
 app.listen(port, ()=> console.log("API srvr is running . . ."))
